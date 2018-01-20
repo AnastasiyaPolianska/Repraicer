@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace Repraicer.ViewModels
 {
-    public class INPCBase : INotifyPropertyChanged
+    public class InpcBase : INotifyPropertyChanged
     {
         #region Debugging Aides
 
@@ -19,15 +19,19 @@ namespace Repraicer.ViewModels
         {
             // Verify that the property name matches a real,  
             // public, instance property on this object.
-            if (TypeDescriptor.GetProperties(this)[propertyName] == null)
+            if (TypeDescriptor.GetProperties(this)[propertyName] != null)
             {
-                string msg = "Invalid property name: " + propertyName;
-
-                if (this.ThrowOnInvalidPropertyName)
-                    throw new Exception(msg);
-                else
-                    Debug.Fail(msg);
+                return;
             }
+
+            var msg = "Invalid property name: " + propertyName;
+
+            if (ThrowOnInvalidPropertyName)
+            {
+                throw new Exception(msg);
+            }
+
+            Debug.Fail(msg);
         }
 
         /// <summary>
@@ -48,32 +52,17 @@ namespace Repraicer.ViewModels
         /// Notify using pre-made PropertyChangedEventArgs
         /// </summary>
         /// <param name="args"></param>
-        protected void NotifyPropertyChanged(PropertyChangedEventArgs args)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, args);
-            }
-        }
+        protected void NotifyPropertyChanged(PropertyChangedEventArgs args) => PropertyChanged?.Invoke(this, args);
 
         /// <summary>
         /// Notify using String property name
         /// </summary>
-        protected void NotifyPropertyChanged(String propertyName)
+        protected void NotifyPropertyChanged(string propertyName)
         {
-            this.VerifyPropertyName(propertyName);
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            VerifyPropertyName(propertyName);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion
-
-
     }
 }

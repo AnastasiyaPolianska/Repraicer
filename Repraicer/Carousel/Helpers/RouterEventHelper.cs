@@ -3,8 +3,6 @@ using System.Windows;
 
 namespace Carousel.Helpers
 {
-
-
     internal static class RoutedEventHelper
     {
         #region RoutedEvent Helper Methods
@@ -16,13 +14,29 @@ namespace Carousel.Helpers
         /// <param name="args">RoutedEventArgs to use when raising the event</param>
         internal static void RaiseEvent(DependencyObject target, RoutedEventArgs args)
         {
-            if (target is UIElement)
+            //if (target is UIElement)
+            //{
+            //    (target as UIElement).RaiseEvent(args);
+            //}
+            //else if (target is ContentElement)
+            //{
+            //    (target as ContentElement).RaiseEvent(args);
+            //}
+
+            //used pattern matching instead of previous code. More readable, faster.
+            switch (target)
             {
-                (target as UIElement).RaiseEvent(args);
-            }
-            else if (target is ContentElement)
-            {
-                (target as ContentElement).RaiseEvent(args);
+                case UIElement uiElement:
+                    {
+                        uiElement.RaiseEvent(args);
+                    }
+                    break;
+
+                case ContentElement contentElement:
+                    {
+                        contentElement.RaiseEvent(args);
+                    }
+                    break;
             }
         }
 
@@ -35,18 +49,34 @@ namespace Carousel.Helpers
         /// <param name="handler">Event handler to be added</param>
         internal static void AddHandler(DependencyObject element, RoutedEvent routedEvent, Delegate handler)
         {
-            UIElement uie = element as UIElement;
-            if (uie != null)
+            //UIElement uie = element as UIElement;
+            //if (uie != null)
+            //{
+            //    uie.AddHandler(routedEvent, handler);
+            //}
+            //else
+            //{
+            //    ContentElement ce = element as ContentElement;
+            //    if (ce != null)
+            //    {
+            //        ce.AddHandler(routedEvent, handler);
+            //    }
+            //}
+
+            //used pattern matching instead of previous code. More readable, faster.
+            switch (element)
             {
-                uie.AddHandler(routedEvent, handler);
-            }
-            else
-            {
-                ContentElement ce = element as ContentElement;
-                if (ce != null)
-                {
-                    ce.AddHandler(routedEvent, handler);
-                }
+                case UIElement uiElement:
+                    {
+                        uiElement.AddHandler(routedEvent, handler);
+                    }
+                    break;
+
+                case ContentElement contentElement:
+                    {
+                        contentElement.AddHandler(routedEvent, handler);
+                    }
+                    break;
             }
         }
 
@@ -59,25 +89,37 @@ namespace Carousel.Helpers
         /// <param name="handler">Event handler to be removed</param>
         internal static void RemoveHandler(DependencyObject element, RoutedEvent routedEvent, Delegate handler)
         {
-            UIElement uie = element as UIElement;
-            if (uie != null)
+            //UIElement uie = element as UIElement;
+            //if (uie != null)
+            //{
+            //    uie.RemoveHandler(routedEvent, handler);
+            //}
+            //else
+            //{
+            //    ContentElement ce = element as ContentElement;
+            //    if (ce != null)
+            //    {
+            //        ce.RemoveHandler(routedEvent, handler);
+            //    }
+            //}
+
+            //used pattern matching instead of previous code. More readable, faster.
+            switch (element)
             {
-                uie.RemoveHandler(routedEvent, handler);
-            }
-            else
-            {
-                ContentElement ce = element as ContentElement;
-                if (ce != null)
-                {
-                    ce.RemoveHandler(routedEvent, handler);
-                }
+                case UIElement uiElement:
+                    {
+                        uiElement.RemoveHandler(routedEvent, handler);
+                    }
+                    break;
+
+                case ContentElement contentElement:
+                    {
+                        contentElement.RemoveHandler(routedEvent, handler);
+                    }
+                    break;
             }
         }
 
         #endregion
     }
-
-
-        
-
 }

@@ -32,3 +32,37 @@ G:\Repraicer\Repraicer\Repraicer\obj\x86\Debug\Repraicer.Properties.Resources.re
 G:\Repraicer\Repraicer\Repraicer\obj\x86\Debug\Repraicer.csproj.GenerateResource.Cache
 G:\Repraicer\Repraicer\Repraicer\obj\x86\Debug\Repraicer.exe
 G:\Repraicer\Repraicer\Repraicer\obj\x86\Debug\Repraicer.pdb
+G:\Новая папка\Repraicer\Repraicer\Repraicer\bin\Debug\Repraicer.exe.config
+G:\Новая папка\Repraicer\Repraicer\Repraicer\bin\Debug\Repraicer.exe
+G:\Новая папка\Repraicer\Repraicer\Repraicer\bin\Debug\Repraicer.pdb
+G:\Новая папка\Repraicer\Repraicer\Repraicer\bin\Debug\Carousel.dll
+G:\Новая папка\Repraicer\Repraicer\Repraicer\bin\Debug\CefSharp.Core.dll
+G:\Новая папка\Repraicer\Repraicer\Repraicer\bin\Debug\CefSharp.dll
+G:\Новая папка\Repraicer\Repraicer\Repraicer\bin\Debug\CefSharp.Wpf.dll
+G:\Новая папка\Repraicer\Repraicer\Repraicer\bin\Debug\Expression.Samples.PathListBoxUtils.dll
+G:\Новая папка\Repraicer\Repraicer\Repraicer\bin\Debug\Microsoft.Expression.Controls.dll
+G:\Новая папка\Repraicer\Repraicer\Repraicer\bin\Debug\Microsoft.Expression.Drawing.dll
+G:\Новая папка\Repraicer\Repraicer\Repraicer\bin\Debug\Microsoft.Expression.Interactions.dll
+G:\Новая папка\Repraicer\Repraicer\Repraicer\bin\Debug\System.Windows.Interactivity.dll
+G:\Новая папка\Repraicer\Repraicer\Repraicer\bin\Debug\Carousel.pdb
+G:\Новая папка\Repraicer\Repraicer\Repraicer\bin\Debug\CefSharp.Wpf.pdb
+G:\Новая папка\Repraicer\Repraicer\Repraicer\bin\Debug\CefSharp.Wpf.xml
+G:\Новая папка\Repraicer\Repraicer\Repraicer\bin\Debug\CefSharp.pdb
+G:\Новая папка\Repraicer\Repraicer\Repraicer\bin\Debug\CefSharp.xml
+G:\Новая папка\Repraicer\Repraicer\Repraicer\bin\Debug\CefSharp.Core.pdb
+G:\Новая папка\Repraicer\Repraicer\Repraicer\bin\Debug\CefSharp.Core.xml
+G:\Новая папка\Repraicer\Repraicer\Repraicer\obj\x86\Debug\Repraicer.csprojResolveAssemblyReference.cache
+G:\Новая папка\Repraicer\Repraicer\Repraicer\obj\x86\Debug\BrowserWindow.baml
+G:\Новая папка\Repraicer\Repraicer\Repraicer\obj\x86\Debug\BrowserWindow.g.cs
+G:\Новая папка\Repraicer\Repraicer\Repraicer\obj\x86\Debug\MainWindow.g.cs
+G:\Новая папка\Repraicer\Repraicer\Repraicer\obj\x86\Debug\App.g.cs
+G:\Новая папка\Repraicer\Repraicer\Repraicer\obj\x86\Debug\Repraicer_Content.g.cs
+G:\Новая папка\Repraicer\Repraicer\Repraicer\obj\x86\Debug\GeneratedInternalTypeHelper.g.cs
+G:\Новая папка\Repraicer\Repraicer\Repraicer\obj\x86\Debug\Repraicer_MarkupCompile.cache
+G:\Новая папка\Repraicer\Repraicer\Repraicer\obj\x86\Debug\Repraicer_MarkupCompile.lref
+G:\Новая папка\Repraicer\Repraicer\Repraicer\obj\x86\Debug\MainWindow.baml
+G:\Новая папка\Repraicer\Repraicer\Repraicer\obj\x86\Debug\Repraicer.g.resources
+G:\Новая папка\Repraicer\Repraicer\Repraicer\obj\x86\Debug\Repraicer.Properties.Resources.resources
+G:\Новая папка\Repraicer\Repraicer\Repraicer\obj\x86\Debug\Repraicer.csproj.GenerateResource.Cache
+G:\Новая папка\Repraicer\Repraicer\Repraicer\obj\x86\Debug\Repraicer.exe
+G:\Новая папка\Repraicer\Repraicer\Repraicer\obj\x86\Debug\Repraicer.pdb

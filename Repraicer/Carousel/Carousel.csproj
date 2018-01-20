@@ -64,6 +64,8 @@
     <Compile Include="CarouselControl.xaml.cs">
       <DependentUpon>CarouselControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Enums\ButtonPosition.cs" />
+    <Compile Include="Enums\PathType.cs" />
     <Compile Include="Helpers\RouterEventHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

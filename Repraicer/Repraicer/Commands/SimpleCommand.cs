@@ -4,52 +4,86 @@ using System.Windows.Input;
 
 namespace Repraicer.Commands
 {
-
     /// <summary>
-    /// Simple delegating command, based largely on DelegateCommand from PRISM/CAL
+    /// Simple command class
     /// </summary>
-    /// <typeparam name="T">The type for the </typeparam>
+    /// <typeparam name="T1">The type of the 1.</typeparam>
+    /// <typeparam name="T2">The type of the 2.</typeparam>
+    /// <seealso cref="System.Windows.Input.ICommand" />
     public class SimpleCommand<T1, T2> : ICommand
     {
-        private Func<T1, bool> canExecuteMethod;
-        private Action<T2> executeMethod;
- 
+        private readonly Func<T1, bool> _canExecuteMethod;
+
+        private readonly Action<T2> _executeMethod;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SimpleCommand{T1, T2}"/> class.
+        /// </summary>
+        /// <param name="canExecuteMethod">The can execute method.</param>
+        /// <param name="executeMethod">The execute method.</param>
         public SimpleCommand(Func<T1, bool> canExecuteMethod, Action<T2> executeMethod)
         {
-            this.executeMethod = executeMethod;
-            this.canExecuteMethod = canExecuteMethod;
+            _executeMethod = executeMethod;
+            _canExecuteMethod = canExecuteMethod;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SimpleCommand{T1, T2}"/> class.
+        /// </summary>
+        /// <param name="executeMethod">The execute method.</param>
         public SimpleCommand(Action<T2> executeMethod)
         {
-            this.executeMethod = executeMethod;
-            this.canExecuteMethod = (x) => { return true; };
+            _executeMethod = executeMethod;
+            _canExecuteMethod = x => true;
         }
 
+        //public bool CanExecute(T1 parameter)
+        //{
+        //if (_canExecuteMethod == null) return true;
+        //return _canExecuteMethod(parameter);
+        //}
 
-        public bool CanExecute(T1 parameter)
-        {
-            if (canExecuteMethod == null) return true;
-            return canExecuteMethod(parameter);
-        }
+        //simplified
 
-        public void Execute(T2 parameter)
-        {
-            if (executeMethod != null)
-            {
-                executeMethod(parameter);
-            }
-        }
+        /// <summary>
+        /// Determines whether this instance can execute the specified parameter.
+        /// </summary>
+        /// <param name="parameter">The parameter.</param>
+        /// <returns>
+        /// <c>true</c> if this instance can execute the specified parameter; otherwise, <c>false</c>.
+        /// </returns>
+        public bool CanExecute(T1 parameter) => _canExecuteMethod == null || _canExecuteMethod(parameter);
 
-        public bool CanExecute(object parameter)
-        {
-            return CanExecute((T1)parameter);
-        }
+        //public void Execute(T2 parameter)
+        //{
+        //if (executeMethod != null)
+        //{
+        //    executeMethod(parameter);
+        //}
+        //}
 
-        public void Execute(object parameter)
-        {
-            Execute((T2)parameter);
-        }
+        //simplified
+
+        /// <summary>
+        /// Executes the specified parameter.
+        /// </summary>
+        /// <param name="parameter">The parameter.</param>
+        public void Execute(T2 parameter) => _executeMethod?.Invoke(parameter);
+
+        /// <summary>
+        /// Defines the method that determines whether the command can execute in its current state.
+        /// </summary>
+        /// <param name="parameter">Data used by the command.  If the command does not require data to be passed, this object can be set to null.</param>
+        /// <returns>
+        /// true if this command can be executed; otherwise, false.
+        /// </returns>
+        public bool CanExecute(object parameter) => CanExecute((T1)parameter);
+
+        /// <summary>
+        /// Defines the method to be called when the command is invoked.
+        /// </summary>
+        /// <param name="parameter">Data used by the command.  If the command does not require data to be passed, this object can be set to null.</param>
+        public void Execute(object parameter) => Execute((T2)parameter);
 
         /// <summary>
         /// Occurs when changes occur that affect whether the command should execute.
@@ -58,7 +92,7 @@ namespace Repraicer.Commands
         {
             add
             {
-                if (canExecuteMethod != null)
+                if (_canExecuteMethod != null)
                 {
                     CommandManager.RequerySuggested += value;
                 }
@@ -66,14 +100,12 @@ namespace Repraicer.Commands
 
             remove
             {
-                if (canExecuteMethod != null)
+                if (_canExecuteMethod != null)
                 {
                     CommandManager.RequerySuggested -= value;
                 }
             }
         }
-
-
 
         /// <summary>
         /// Raises the <see cref="CanExecuteChanged" /> event.
@@ -82,9 +114,6 @@ namespace Repraicer.Commands
             Justification = "The this keyword is used in the Silverlight version")]
         [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate",
             Justification = "This cannot be an event")]
-        public void RaiseCanExecuteChanged()
-        {
-            CommandManager.InvalidateRequerySuggested();
-        }
+        public void RaiseCanExecuteChanged() => CommandManager.InvalidateRequerySuggested();
     }
 }

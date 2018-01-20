@@ -8,10 +8,14 @@ namespace Repraicer
     /// </summary>
     public partial class BrowserWindow : Window
     {
-        private BrowserWndowViewModel vm = BrowserWndowViewModel.Instance;
+        private readonly BrowserWndowViewModel _vm = BrowserWndowViewModel.Instance;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrowserWindow"/> class.
+        /// </summary>
         public BrowserWindow()
         {
-            this.DataContext = vm;
+            DataContext = _vm;
             InitializeComponent();
         }
     }

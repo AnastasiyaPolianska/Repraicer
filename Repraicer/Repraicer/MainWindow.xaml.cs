@@ -12,10 +12,14 @@ namespace Repraicer
     /// </summary>
     public partial class MainWindow : Window
     {
-        MainWindowViewModel vm = new MainWindowViewModel();
+        private readonly MainWindowViewModel _vm = new MainWindowViewModel();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindow"/> class.
+        /// </summary>
         public MainWindow()
         {
-            this.DataContext = vm;
+            DataContext = _vm;
             InitializeComponent();
         }
 
@@ -27,18 +31,27 @@ namespace Repraicer
         {
             if (e.AddedItems.Count > 0)
             {
-                vm.CurrentData = (Product)e.AddedItems[0];
+                _vm.CurrentData = (Product)e.AddedItems[0];
             }
         }
 
-        private void UIElement_OnPreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = !IsTextAllowed(e.Text);
-        }
+        /// <summary>
+        /// Handles the OnPreviewTextInput event of the UIElement control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="TextCompositionEventArgs"/> instance containing the event data.</param>
+        private void UIElement_OnPreviewTextInput(object sender, TextCompositionEventArgs e) => e.Handled = !IsTextAllowed(e.Text);
 
+        /// <summary>
+        /// Determines whether [is text allowed] [the specified text].
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <returns>
+        ///   <c>true</c> if [is text allowed] [the specified text]; otherwise, <c>false</c>.
+        /// </returns>
         private static bool IsTextAllowed(string text)
         {
-            Regex regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
+            var regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
             return !regex.IsMatch(text);
         }
     }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Repraicer.Commands;
+using Repraicer.Model;
+using Repraicer.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -6,68 +9,92 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Repraicer.Commands;
-using Repraicer.Model;
-using Repraicer.Services;
 
 namespace Repraicer.ViewModels
 {
-    public class MainWindowViewModel : INPCBase
+    public class MainWindowViewModel : InpcBase
     {
         //  private BrowserWndowViewModel browserWndowViewModel = BrowserWndowViewModel.Instance;
-        private ObservableCollection<Product> data;
+        private ObservableCollection<Product> _data;
 
-        private Product currentData;
-        private int currentPos;
-        private DispatcherTimer _timer = new DispatcherTimer();
+        private Product _currentData;
+
+        private int _currentPos;
+
+        private readonly DispatcherTimer _timer = new DispatcherTimer();
+
         private int _timerInterval = 5;
-        private Process process;
-        private List<string> sortItems = new List<string>();
+
+        private List<string> _sortItems = new List<string>();
+
         private string _selectedSortItem;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindowViewModel"/> class.
+        /// </summary>
         public MainWindowViewModel()
         {
+            _data = new ObservableCollection<Product>();
 
-            data = new ObservableCollection<Product>();
-            ParseFilesService service = new ParseFilesService();
-            List<Product> products = service.ReadProductsFile("activeListing.txt");
-            foreach (Product product in products)
+            var service = new ParseFilesService();
+            var products = service.ReadProductsFile("activeListing.txt");
+
+            foreach (var product in products)
             {
-                data.Add(product);
+                _data.Add(product);
             }
 
-            sortItems.AddRange(new[] { "List Date Newest", "Oldest List Date", "Highest Price", "Lowest Price" });
-            _selectedSortItem = sortItems[0];
+            _sortItems.AddRange(new[]
+            {
+                "List Date Newest",
+                "Oldest List Date",
+                "Highest Price",
+                "Lowest Price"
+            });
+
+            _selectedSortItem = _sortItems[0];
             _timer.Tick += TimerTick;
             SetTimerInterval();
-            //commands
-            DecrementCommand = new SimpleCommand<Object, Object>(ExecuteDecrementCommand);
-            IncrementCommand = new SimpleCommand<Object, Object>(ExecuteIncrementCommand);
-            GenerateFileCommand = new SimpleCommand<Object, Object>(GenerateFile);
-            PlayCommand = new SimpleCommand<Object, Object>(PlayCommanExecute);
-            PauseCommand = new SimpleCommand<Object, Object>(PauseCommandExecute);
 
-            //  _keepaWindow = new NavigationWindow();
-            currentPos = 0;
-            CurrentData = products[currentPos];
+            //commands
+            DecrementCommand = new SimpleCommand<object, object>(ExecuteDecrementCommand);
+            IncrementCommand = new SimpleCommand<object, object>(ExecuteIncrementCommand);
+            GenerateFileCommand = new SimpleCommand<object, object>(GenerateFile);
+            PlayCommand = new SimpleCommand<object, object>(PlayCommanExecute);
+            PauseCommand = new SimpleCommand<object, Object>(PauseCommandExecute);
+
+            //_keepaWindow = new NavigationWindow();
+            _currentPos = 0;
+            CurrentData = products[_currentPos];
 
             //var browser = new BrowserWindow();
             //browser.Show();
         }
 
+        /// <summary>
+        /// Gets or sets the sort items.
+        /// </summary>
+        /// <value>
+        /// The sort items.
+        /// </value>
         public List<string> SortItems
         {
-            get { return sortItems; }
+            get => _sortItems;
             set
             {
-                sortItems = value;
+                _sortItems = value;
                 NotifyPropertyChanged(nameof(SortItems));
             }
         }
 
+        /// <summary>
+        /// Gets or sets the selected sort item.
+        /// </summary>
+        /// <value>
+        /// The selected sort item.
+        /// </value>
         public string SelectedSortItem
         {
             get => _selectedSortItem;
@@ -80,97 +107,140 @@ namespace Repraicer.ViewModels
             }
         }
 
-        private void SetTimerInterval()
-        {
-            _timer.Interval = TimeSpan.FromSeconds(_timerInterval);
-        }
+        /// <summary>
+        /// Sets the timer interval.
+        /// </summary>
+        private void SetTimerInterval() => _timer.Interval = TimeSpan.FromSeconds(_timerInterval);
 
-        private void PlayCommanExecute(Object parameter)
-        {
-            _timer.Start();
-        }
+        private void PlayCommanExecute(object parameter) => _timer.Start();
 
-        private void PauseCommandExecute(Object parameter)
-        {
-            _timer.Stop();
-        }
+        /// <summary>
+        /// Pauses the command execute.
+        /// </summary>
+        /// <param name="parameter">The parameter.</param>
+        private void PauseCommandExecute(object parameter) => _timer.Stop();
 
-        private void ExecuteDecrementCommand(Object parameter)
+        /// <summary>
+        /// Executes the decrement command.
+        /// </summary>
+        /// <param name="parameter">The parameter.</param>
+        private void ExecuteDecrementCommand(object parameter)
         {
-            if (currentPos > 0)
+            if (_currentPos <= 0)
             {
-                --currentPos;
-                CurrentData = data[currentPos];
+                return;
             }
+
+            --_currentPos;
+            CurrentData = _data[_currentPos];
         }
 
+        /// <summary>
+        /// Gets or sets the current position.
+        /// </summary>
+        /// <value>
+        /// The current position.
+        /// </value>
         public int CurrentPosition
         {
-            get { return currentPos + 1; }
+            get => _currentPos + 1;
             set
             {
-                currentPos = value;
+                _currentPos = value;
                 NotifyPropertyChanged(nameof(CurrentPosition));
             }
         }
 
+        /// <summary>
+        /// Timers the tick.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void TimerTick(object sender, EventArgs e)
         {
-            currentPos++;
-            CurrentData = data[currentPos];
-        }
+            _currentPos++;
 
-        private void ExecuteIncrementCommand(Object parameter)
-        {
-            if (currentPos < data.Count - 1)
+            if (_currentPos >= _data.Count)
             {
-                ++currentPos;
-                CurrentData = data[currentPos];
+                _currentPos = 0;
             }
+
+            CurrentData = _data[_currentPos];
         }
 
+        /// <summary>
+        /// Executes the increment command.
+        /// </summary>
+        /// <param name="parameter">The parameter.</param>
+        private void ExecuteIncrementCommand(object parameter)
+        {
+            if (_currentPos >= _data.Count - 1)
+            {
+                return;
+            }
+
+            ++_currentPos;
+            CurrentData = _data[_currentPos];
+        }
+
+        /// <summary>
+        /// Sorts the products.
+        /// </summary>
         private void SortProducts()
         {
             switch (SelectedSortItem)
             {
                 case "List Date Newest":
-                    Data = new ObservableCollection<Product>(Data.OrderBy(d => d.OpenDate).ToList());
+                    {
+                        Data = new ObservableCollection<Product>(Data.OrderBy(d => d.OpenDate).ToList());
+                    }
+                    break;
 
-                    break;
                 case "Oldest List Date":
-                    Data = new ObservableCollection<Product>(Data.OrderByDescending(d => d.OpenDate).ToList());
+                    {
+                        Data = new ObservableCollection<Product>(Data.OrderByDescending(d => d.OpenDate).ToList());
+                    }
                     break;
+
                 case "Highest Price":
-                    Data = new ObservableCollection<Product>(Data.OrderByDescending(d => d.Price).ToList());
+                    {
+                        Data = new ObservableCollection<Product>(Data.OrderByDescending(d => d.Price).ToList());
+                    }
                     break;
+
                 case "Lowest Price":
-                    Data = new ObservableCollection<Product>(Data.OrderBy(d => d.Price).ToList());
+                    {
+                        Data = new ObservableCollection<Product>(Data.OrderBy(d => d.Price).ToList());
+                    }
                     break;
             }
+
             CurrentPosition = 0;
-            CurrentData = Data[currentPos];
+            CurrentData = Data[_currentPos];
         }
 
-        private void GenerateFile(Object parameter)
+        /// <summary>
+        /// Generates the file.
+        /// </summary>
+        /// <param name="parameter">The parameter.</param>
+        private void GenerateFile(object parameter)
         {
-            string delimiter = "\t";
-            StringBuilder sb = new StringBuilder();
+            const string delimiter = "\t";
+            var sb = new StringBuilder();
+
             sb.AppendLine("sku" + delimiter + "price" + delimiter + "quantity");
-            foreach (Product product in data)
+            foreach (var product in _data)
             {
                 if (!string.IsNullOrEmpty(product.NewPrice) && product.NewPrice != product.Price)
                 {
                     sb.AppendLine(product.SellerSku + delimiter + product.NewPrice);
                 }
             }
-            using (StreamWriter file =
-                new StreamWriter("newPrice.txt"))
+
+            using (var file = new StreamWriter("newPrice.txt"))
             {
                 file.Write(sb);
-
             }
-
-
         }
 
         public ICommand DecrementCommand { get; private set; }
@@ -181,46 +251,64 @@ namespace Repraicer.ViewModels
         public ICommand PlayCommand { get; }
         public ICommand PauseCommand { get; }
 
+        /// <summary>
+        /// Gets or sets the data.
+        /// </summary>
+        /// <value>
+        /// The data.
+        /// </value>
         public ObservableCollection<Product> Data
         {
-            get { return data; }
+            get => _data;
             set
             {
-                data = value;
+                _data = value;
                 NotifyPropertyChanged(nameof(Data));
             }
         }
 
+        /// <summary>
+        /// Gets or sets the timer interval.
+        /// </summary>
+        /// <value>
+        /// The timer interval.
+        /// </value>
         public int TimerInterval
         {
-            get { return _timerInterval; }
+            get => _timerInterval;
             set
             {
                 _timerInterval = value;
+
                 SetTimerInterval();
                 NotifyPropertyChanged(nameof(TimerInterval));
             }
         }
 
+        /// <summary>
+        /// Gets or sets the current data.
+        /// </summary>
+        /// <value>
+        /// The current data.
+        /// </value>
         public Product CurrentData
         {
-            get { return currentData; }
+            get => _currentData;
             set
             {
-                if (currentData != value)
+                if (_currentData == value)
                 {
-                    currentData = value;
-                    CurrentPosition = data.IndexOf(currentData);
-
-                    //  browserWndowViewModel.ProductUri = new Uri("https://www.amazon.com/gp/offer-listing/" + currentData.asin1 + "/", UriKind.Absolute);
-                    Process.Start("https://www.amazon.com/gp/offer-listing/" + currentData.asin1 + "/ref=olp_f_primeEligible?ie=UTF8&f_all=true&f_primeEligible=true");
-                    //    process = Process.Start("https://keepa.com/#!product/1-" + currentData.asin1 + "/");
-                    //    if(currentPos > 0) CloseTab();
-                    NotifyPropertyChanged("CurrentData");
-
-
-
+                    return;
                 }
+
+                _currentData = value;
+                CurrentPosition = _data.IndexOf(_currentData);
+
+                //  browserWndowViewModel.ProductUri = new Uri("https://www.amazon.com/gp/offer-listing/" + currentData.asin1 + "/", UriKind.Absolute);
+                Process.Start("https://www.amazon.com/gp/offer-listing/" + _currentData.Asin1 + "/ref=olp_f_primeEligible?ie=UTF8&f_all=true&f_primeEligible=true");
+                //    process = Process.Start("https://keepa.com/#!product/1-" + currentData.asin1 + "/");
+                //    if(currentPos > 0) CloseTab();
+                NotifyPropertyChanged("CurrentData");
             }
         }
 
@@ -231,11 +319,19 @@ namespace Repraicer.ViewModels
         [DllImport("user32.dll")]
         public static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, uint dwExtraInfo);
 
-        byte W = 0x57; //the keycode for the W key
+        //byte W = 0x57; //the keycode for the W key
 
-        public static void Send(byte KeyCode, bool Ctrl, bool Alt, bool Shift, bool Win)
+        /// <summary>
+        /// Sends the specified key code.
+        /// </summary>
+        /// <param name="keyCode">The key code.</param>
+        /// <param name="ctrl">if set to <c>true</c> [control].</param>
+        /// <param name="alt">if set to <c>true</c> [alt].</param>
+        /// <param name="shift">if set to <c>true</c> [shift].</param>
+        /// <param name="win">if set to <c>true</c> [win].</param>
+        public static void Send(byte keyCode, bool ctrl, bool alt, bool shift, bool win)
         {
-            byte Keycode = (byte)KeyCode;
+            byte keycode = (byte)keyCode;
 
             uint KEYEVENTF_KEYUP = 2;
             byte VK_CONTROL = 0x11;
@@ -243,35 +339,56 @@ namespace Repraicer.ViewModels
             byte VK_LSHIFT = 0xA0;
             byte VK_LWIN = 0x5B;
 
-            if (Ctrl)
+            if (ctrl)
+            {
                 keybd_event(VK_CONTROL, 0, 0, 0);
-            if (Alt)
+            }
+
+            if (alt)
+            {
                 keybd_event(VK_MENU, 0, 0, 0);
-            if (Shift)
+            }
+
+            if (shift)
+            {
                 keybd_event(VK_LSHIFT, 0, 0, 0);
-            if (Win)
+            }
+
+            if (win)
+            {
                 keybd_event(VK_LWIN, 0, 0, 0);
+            }
 
             //true keycode
-            keybd_event(Keycode, 0, 0, 0); //down
-            keybd_event(Keycode, 0, KEYEVENTF_KEYUP, 0); //up
+            keybd_event(keycode, 0, 0, 0); //down
+            keybd_event(keycode, 0, KEYEVENTF_KEYUP, 0); //up
 
-            if (Ctrl)
+            if (ctrl)
+            {
                 keybd_event(VK_CONTROL, 0, KEYEVENTF_KEYUP, 0);
-            if (Alt)
+            }
+
+            if (alt)
+            {
                 keybd_event(VK_MENU, 0, KEYEVENTF_KEYUP, 0);
-            if (Shift)
+            }
+
+            if (shift)
+            {
                 keybd_event(VK_LSHIFT, 0, KEYEVENTF_KEYUP, 0);
-            if (Win)
+            }
+
+            if (win)
+            {
                 keybd_event(VK_LWIN, 0, KEYEVENTF_KEYUP, 0);
-
+            }
         }
 
-        private void CloseTab()
-        {
-            SetForegroundWindow(process.MainWindowHandle);
-            Task.Delay(500);
-            Send(W, true, false, false, false); //Ctrl+W
-        }
+        //private void CloseTab()
+        //{
+        //    SetForegroundWindow(_process.MainWindowHandle);
+        //    Task.Delay(500);
+        //    Send(W, true, false, false, false); //Ctrl+W
+        //}
     }
 }

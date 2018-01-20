@@ -1,17 +1,17 @@
-G:\Repraicer\Repraicer\Carousel\bin\Debug\Carousel.dll
-G:\Repraicer\Repraicer\Carousel\bin\Debug\Carousel.pdb
-G:\Repraicer\Repraicer\Carousel\bin\Debug\Expression.Samples.PathListBoxUtils.dll
-G:\Repraicer\Repraicer\Carousel\bin\Debug\Microsoft.Expression.Controls.dll
-G:\Repraicer\Repraicer\Carousel\bin\Debug\Microsoft.Expression.Drawing.dll
-G:\Repraicer\Repraicer\Carousel\bin\Debug\Microsoft.Expression.Interactions.dll
-G:\Repraicer\Repraicer\Carousel\bin\Debug\System.Windows.Interactivity.dll
-G:\Repraicer\Repraicer\Carousel\obj\x86\Debug\Carousel.csprojResolveAssemblyReference.cache
-G:\Repraicer\Repraicer\Carousel\obj\x86\Debug\CarouselControl.g.cs
-G:\Repraicer\Repraicer\Carousel\obj\x86\Debug\Carousel_MarkupCompile.cache
-G:\Repraicer\Repraicer\Carousel\obj\x86\Debug\Carousel_MarkupCompile.lref
-G:\Repraicer\Repraicer\Carousel\obj\x86\Debug\CarouselControl.baml
-G:\Repraicer\Repraicer\Carousel\obj\x86\Debug\Carousel.g.resources
-G:\Repraicer\Repraicer\Carousel\obj\x86\Debug\Carousel.Properties.Resources.resources
-G:\Repraicer\Repraicer\Carousel\obj\x86\Debug\Carousel.csproj.GenerateResource.Cache
-G:\Repraicer\Repraicer\Carousel\obj\x86\Debug\Carousel.dll
-G:\Repraicer\Repraicer\Carousel\obj\x86\Debug\Carousel.pdb
+G:\Новая папка\Repraicer\Repraicer\Carousel\bin\Debug\Carousel.dll
+G:\Новая папка\Repraicer\Repraicer\Carousel\bin\Debug\Carousel.pdb
+G:\Новая папка\Repraicer\Repraicer\Carousel\bin\Debug\Expression.Samples.PathListBoxUtils.dll
+G:\Новая папка\Repraicer\Repraicer\Carousel\bin\Debug\Microsoft.Expression.Controls.dll
+G:\Новая папка\Repraicer\Repraicer\Carousel\bin\Debug\Microsoft.Expression.Drawing.dll
+G:\Новая папка\Repraicer\Repraicer\Carousel\bin\Debug\Microsoft.Expression.Interactions.dll
+G:\Новая папка\Repraicer\Repraicer\Carousel\bin\Debug\System.Windows.Interactivity.dll
+G:\Новая папка\Repraicer\Repraicer\Carousel\obj\x86\Debug\Carousel.csprojResolveAssemblyReference.cache
+G:\Новая папка\Repraicer\Repraicer\Carousel\obj\x86\Debug\CarouselControl.g.cs
+G:\Новая папка\Repraicer\Repraicer\Carousel\obj\x86\Debug\Carousel_MarkupCompile.cache
+G:\Новая папка\Repraicer\Repraicer\Carousel\obj\x86\Debug\Carousel_MarkupCompile.lref
+G:\Новая папка\Repraicer\Repraicer\Carousel\obj\x86\Debug\CarouselControl.baml
+G:\Новая папка\Repraicer\Repraicer\Carousel\obj\x86\Debug\Carousel.g.resources
+G:\Новая папка\Repraicer\Repraicer\Carousel\obj\x86\Debug\Carousel.Properties.Resources.resources
+G:\Новая папка\Repraicer\Repraicer\Carousel\obj\x86\Debug\Carousel.csproj.GenerateResource.Cache
+G:\Новая папка\Repraicer\Repraicer\Carousel\obj\x86\Debug\Carousel.dll
+G:\Новая папка\Repraicer\Repraicer\Carousel\obj\x86\Debug\Carousel.pdb
