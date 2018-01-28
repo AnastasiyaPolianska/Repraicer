@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Repraicer.Model;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
-using Repraicer.Model;
 
 namespace Repraicer.Services
 {
@@ -17,14 +18,6 @@ namespace Repraicer.Services
         {
             var lines = File.ReadAllLines(path);
             
-            //List<Item> items = new List<Item>();
-            //for(int i = 1; i < lines.Length; i++)
-            //{
-            //    var itemsString =  lines[i].Split('\t');
-            //    items.Add(new Item{SellerSku = itemsString[0], ConditionType = itemsString[3], QuantityAvailable = Int32.Parse(itemsString[itemsString.Length - 1])});
-            // }
-
-            //converted into LINQ expression
             var items = lines.Skip(1).Select(x =>
             {
                 var itemsString = x.Split('\t');
@@ -48,27 +41,6 @@ namespace Repraicer.Services
         {
             var lines = File.ReadAllLines(path);
 
-            //var products = new List<Product>();
-
-            //for (int i = 1; i < lines.Length; i++)
-            //{
-            //    var itemsString = lines[i].Split('\t');
-            //    products.Add(
-            //        new Product
-            //        {
-            //            SellerSku = itemsString[3],
-            //            ItemName = itemsString[0],
-            //            OpenDate = itemsString[6],
-            //            ItemCondition = itemsString[12],
-
-            //            ImageUrl = String.IsNullOrEmpty(itemsString[7]) ? new Uri("http://www.codeodor.com/images/Empty_set.png", UriKind.Absolute) : new Uri(itemsString[7], UriKind.Absolute) ,
-            //            Price = itemsString[4],
-            //            Quantity = itemsString[5],
-            //            Asin1 = itemsString[16]
-            //        });
-            //}
-
-            //converted into LINQ expression
             var products = lines.Skip(1).Select(x =>
             {
                 var itemsString = x.Split('\t');
@@ -76,14 +48,15 @@ namespace Repraicer.Services
                 {
                     SellerSku = itemsString[3],
                     ItemName = itemsString[0],
-                    OpenDate = itemsString[6],
+                    OpenDate = GetDate(itemsString[6]),
                     ItemCondition = itemsString[12],
 
                     ImageUrl = string.IsNullOrEmpty(itemsString[7])
                         ? new Uri("http://www.codeodor.com/images/Empty_set.png", UriKind.Absolute)
                         : new Uri(itemsString[7], UriKind.Absolute),
-                    Price = itemsString[4],
-                    Quantity = itemsString[5],
+                    Price = double.Parse(itemsString[4], CultureInfo.InvariantCulture),
+                    NewPrice = double.Parse(itemsString[4], CultureInfo.InvariantCulture),
+                    Quantity = string.IsNullOrEmpty(itemsString[5]) ? 0: int.Parse(itemsString[5], CultureInfo.InvariantCulture),
                     Asin1 = itemsString[16]
                 };
             });
@@ -105,12 +78,25 @@ namespace Repraicer.Services
                         continue;
                     }
 
-                    product.Quantity = item.QuantityAvailable.ToString();
+                    product.Quantity = item.QuantityAvailable;
                     product.Condition = item.ConditionType;
                 }
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Gets the date.
+        /// </summary>
+        /// <param name="income">The income.</param>
+        /// <returns></returns>
+        private DateTime GetDate(string income)
+        {
+            var datePart = ((string)income)?.Split(' ')[0];
+            var startDate = DateTime.Parse(datePart);
+
+            return startDate;
         }
     }
 }

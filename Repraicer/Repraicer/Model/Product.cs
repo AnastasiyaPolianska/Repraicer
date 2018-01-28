@@ -12,11 +12,11 @@ namespace Repraicer.Model
 
         public string SellerSku { get; set; }
 
-        public string Price { get; set; }
+        public double Price { get; set; }
 
-        public string Quantity { get; set; }
+        public int Quantity { get; set; }
 
-        public string OpenDate { get; set; }
+        public DateTime OpenDate { get; set; }
 
         public Uri ImageUrl { get; set; }
 
@@ -60,6 +60,6 @@ namespace Repraicer.Model
 
         public string Condition { get; set; }
 
-        public string NewPrice { get; set; }
+        public double NewPrice { get; set; }
     }
 }

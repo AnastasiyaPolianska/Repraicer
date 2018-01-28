@@ -10,5 +10,5 @@
         BottomLeft,
         BottomCenter,
         BottomRight
-    };
+    }
 }

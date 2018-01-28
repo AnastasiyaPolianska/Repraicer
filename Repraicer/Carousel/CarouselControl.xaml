@@ -48,7 +48,6 @@
             </Setter>
         </Style>
 
-
         <!--  Defualt Next Button style  -->
         <Style x:Key="navigatorNextButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="Padding" Value="0" />
@@ -183,10 +182,7 @@
             </Setter>
         </Style>
 
-
     </UserControl.Resources>
-
-
 
     <Grid Margin="0">
         <Grid.ColumnDefinitions>
@@ -226,13 +222,11 @@
                             EventName="Click"
                             SourceName="pathListBox"
                             SourceObject="{Binding ElementName=previousButton}">
-                            <i:InvokeCommandAction CommandName="DecrementCommand" />
                         </i:EventTrigger>
                         <i:EventTrigger
                             EventName="Click"
                             SourceName="pathListBox"
                             SourceObject="{Binding ElementName=nextButton}">
-                            <i:InvokeCommandAction CommandName="IncrementCommand" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="SelectionChanged" SourceName="pathListBox">
                             <i:InvokeCommandAction CommandName="ScrollSelectedCommand" />
@@ -241,7 +235,6 @@
                 </PathListBoxUtils:PathListBoxScrollBehavior>
             </i:Interaction.Behaviors>
         </ec:PathListBox>
-
 
         <Button
             x:Name="nextButton"
@@ -285,6 +278,5 @@
         </Grid>
 
     </Grid>
-
 
 </UserControl>

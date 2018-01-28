@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using Repraicer.ViewModels;
+﻿using Repraicer.ViewModels;
+using System.Windows;
 
 namespace Repraicer
 {

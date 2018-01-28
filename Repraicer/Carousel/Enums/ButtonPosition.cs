@@ -7,5 +7,5 @@
         Diagonal,
         ZigZag,
         Custom
-    };
+    }
 }

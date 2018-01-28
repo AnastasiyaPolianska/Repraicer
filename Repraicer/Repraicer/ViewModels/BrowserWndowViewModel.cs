@@ -15,7 +15,6 @@ namespace Repraicer.ViewModels
         /// The instance.
         /// </value>
 
-        //clearer way
         public static BrowserWndowViewModel Instance => _instance ?? (_instance = new BrowserWndowViewModel());
 
         /// <summary>

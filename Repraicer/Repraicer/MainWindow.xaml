@@ -74,7 +74,7 @@
                         Grid.Column="1"
                         Width="auto"
                         Orientation="Horizontal">
-                        <Label VerticalContentAlignment="Top" Content="Title" />
+                        <Label VerticalContentAlignment="Top" Content="Title:" FontWeight="Bold"/>
                         <TextBlock
                             Width="500"
                             Margin="0,5"
@@ -83,24 +83,24 @@
                     </StackPanel>
                 </Grid>
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <Label Content="List Date(XXX Days Old)" />
+                    <Label Content="List Date(XXX Days Old):" FontWeight="Bold"/>
                     <TextBlock
                         Width="80"
                         VerticalAlignment="Center"
                         Text="{Binding CurrentData.OpenDate, Converter={StaticResource DateToDaysCountConverter}}" />
-                    <Label Content="Condition" />
+                    <Label Content="Condition:" FontWeight="Bold"/>
                     <TextBlock
                         Width="150"
                         VerticalAlignment="Center"
                         Text="{Binding CurrentData.Condition}" />
-                    <Label Margin="25,0,0,0" Content="Quantity" />
+                    <Label Margin="25,0,0,0" Content="Quantity:" FontWeight="Bold"/>
                     <TextBlock
                         Width="80"
                         VerticalAlignment="Center"
                         Text="{Binding CurrentData.Quantity}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="SKU" />
+                    <Label Content="SKU:" FontWeight="Bold"/>
                     <TextBlock
                         Width="400"
                         VerticalAlignment="Center"
@@ -115,42 +115,46 @@
                         Margin="0,0,30,0"
                         DockPanel.Dock="Right"
                         Orientation="Horizontal" />
-                    <StackPanel Margin="30,0,0,0" Orientation="Horizontal">
-                        <Label Content="Current price" />
+                    <StackPanel Margin="0,0,0,0" Orientation="Horizontal" Width="792">
+                        <Label Content="Current price:" RenderTransformOrigin="-0.153,0.441" FontWeight="Bold"/>
                         <TextBlock
                             Width="50"
-                            Margin="0,0,10,0"
+                            Margin="0,0,5
+                            ,0"
                             VerticalAlignment="Center"
                             Text="{Binding CurrentData.Price}" />
-                        <Label Content="New price" />
-                        <TextBox Width="80" Text="{Binding CurrentData.NewPrice, Mode=TwoWay}" />
+                        <Label Content="New price:" FontWeight="Bold"/>
+                        <TextBox Width="50" Text="{Binding CurrentData.NewPrice, Mode=TwoWay}" PreviewTextInput="UIElement_OnPreviewTextInput" VerticalContentAlignment="Center"/>
+                        <Button Command="{Binding GenerateFileCommand}" Content="Cloud" Margin="10,0" Width="70"/>
+                        <Label Content="Display Next Item in " FontWeight="Bold" RenderTransformOrigin="0.864,-1.508" Margin="175,0,0,0"/>
+                        <TextBox
+                                Width="50"
+                                VerticalContentAlignment="Center"
+                                PreviewTextInput="UIElement_OnPreviewTextInput"
+                                Text="{Binding TimerInterval, Mode=TwoWay}" />
+                        <Label Content="sesonds" FontWeight="Bold" Width="67"/>
                     </StackPanel>
                 </DockPanel>
                 <DockPanel Margin="0,5,0,5" />
                 <DockPanel Margin="0,5,5,5">
                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                         <StackPanel Margin="30,0,0,0" Orientation="Horizontal">
-                            <Label Content="Display Next Item in " />
-                            <TextBox
-                                Width="30"
-                                VerticalContentAlignment="Center"
-                                PreviewTextInput="UIElement_OnPreviewTextInput"
-                                Text="{Binding TimerInterval, Mode=TwoWay}" />
-                            <Label Content="Sesonds" />
-                            <Button Command="{Binding PlayCommand}" Content="Play" />
+                            <Button Command="{Binding PlayCommand}" Content="Play" Width="70" />
                             <Button
-                                Margin="10,0"
+                                Margin="10,0,25,0"
                                 Command="{Binding PauseCommand}"
-                                Content="Pause" />
+                                Content="Pause" Width="70" />
                         </StackPanel>
-                        <Button Command="{Binding GenerateFileCommand}" Content="cloud" />
+
                     </StackPanel>
+
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="Sort" />
+                        <Label Content="Sort:" FontWeight="Bold" Margin="0,0,0,0"/>
                         <ComboBox
-                            Width="150"
+                            Width="164"
                             ItemsSource="{Binding SortItems}"
-                            SelectedItem="{Binding SelectedSortItem}" />
+                            SelectedItem="{Binding SelectedSortItem}"
+                            Text="Select sorting way" IsEditable="True" IsReadOnly="True"/>
                     </StackPanel>
                 </DockPanel>
             </StackPanel>
@@ -183,12 +187,7 @@
                                     Height="60"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    Source="pack://application:,,,Empty_set.png" />
-                                <Label
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Content="No image"
-                                    FontSize="14" />
+                                    Source="{Binding ImageUrl}"/>
                             </Grid>
                         </Border>
                     </DataTemplate>

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Carousel.Enums;
+using Carousel.Helpers;
+using Expression.Samples.PathListBoxUtils;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,9 +10,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 using System.Windows.Media.Animation;
-using Carousel.Enums;
-using Carousel.Helpers;
-using Expression.Samples.PathListBoxUtils;
 
 namespace Carousel
 {
@@ -62,53 +62,6 @@ namespace Carousel
             return (!v.Equals(int.MinValue) &&
                 !v.Equals(int.MaxValue));
         }
-
-        //private void SetButtonPosition(ButtonPosition buttonPosition)
-        //{
-        //    switch (buttonPosition)
-        //    {
-        //        case ButtonPosition.TopLeft:
-        //            spButtons.VerticalAlignment = VerticalAlignment.Top;
-        //            spButtons.HorizontalAlignment = HorizontalAlignment.Left;
-        //            spButtons.Orientation = System.Windows.Controls.Orientation.Horizontal;
-        //            break;
-        //        case ButtonPosition.TopCenter:
-        //            spButtons.VerticalAlignment = VerticalAlignment.Top;
-        //            spButtons.HorizontalAlignment = HorizontalAlignment.Center;
-        //            spButtons.Orientation = System.Windows.Controls.Orientation.Horizontal;
-        //            break;
-        //        case ButtonPosition.TopRight:
-        //            spButtons.VerticalAlignment = VerticalAlignment.Top;
-        //            spButtons.HorizontalAlignment = HorizontalAlignment.Right;
-        //            spButtons.Orientation = System.Windows.Controls.Orientation.Horizontal;
-        //            break;
-        //        case ButtonPosition.LeftCenter:
-        //            spButtons.VerticalAlignment = VerticalAlignment.Center;
-        //            spButtons.HorizontalAlignment = HorizontalAlignment.Left;
-        //            spButtons.Orientation = System.Windows.Controls.Orientation.Vertical;
-        //            break;
-        //        case ButtonPosition.RightCenter:
-        //            spButtons.VerticalAlignment = VerticalAlignment.Center;
-        //            spButtons.HorizontalAlignment = HorizontalAlignment.Right;
-        //            spButtons.Orientation = System.Windows.Controls.Orientation.Vertical;
-        //            break;
-        //        case ButtonPosition.BottomLeft:
-        //            spButtons.VerticalAlignment = VerticalAlignment.Bottom;
-        //            spButtons.HorizontalAlignment = HorizontalAlignment.Left;
-        //            spButtons.Orientation = System.Windows.Controls.Orientation.Horizontal;
-        //            break;
-        //        case ButtonPosition.BottomCenter:
-        //            spButtons.VerticalAlignment = VerticalAlignment.Bottom;
-        //            spButtons.HorizontalAlignment = HorizontalAlignment.Center;
-        //            spButtons.Orientation = System.Windows.Controls.Orientation.Horizontal;
-        //            break;
-        //        case ButtonPosition.BottomRight:
-        //            spButtons.VerticalAlignment = VerticalAlignment.Bottom;
-        //            spButtons.HorizontalAlignment = HorizontalAlignment.Right;
-        //            spButtons.Orientation = System.Windows.Controls.Orientation.Horizontal;
-        //            break;
-        //    }
-        //}
 
         /// <summary>
         /// Sets the visibility for path.
@@ -173,12 +126,10 @@ namespace Carousel
         {
             var behaviors = Interaction.GetBehaviors(pathListBox);
 
-            //pathListBoxScrollBehavior = (PathListBoxScrollBehavior)behaviors
-            //    .Where(x => x.GetType() == typeof(PathListBoxScrollBehavior)).FirstOrDefault();
-
-            //shorter and clearer way.
             _pathListBoxScrollBehavior = (PathListBoxScrollBehavior)behaviors
                 .FirstOrDefault(x => x.GetType() == typeof(PathListBoxScrollBehavior));
+
+            pathListBox.SelectedIndex = 3;
         }
 
         /// <summary>
@@ -195,9 +146,6 @@ namespace Carousel
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void PathListBoxItemTransformer_Loaded(object sender, RoutedEventArgs e)
         {
-            //PathListBoxItemTransformer trans = sender as PathListBoxItemTransformer;
-
-            //used pattern matching.
             if (!(sender is PathListBoxItemTransformer trans)) return;
 
             trans.Ease = AnimationEaseIn;
@@ -372,8 +320,6 @@ namespace Carousel
         /// <param name="e">The <see cref="System.Windows.DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
         protected virtual void OnNavigationButtonPositionChanged(DependencyPropertyChangedEventArgs e)
         {
-            //if (e.NewValue != null)
-            //    SetButtonPosition((ButtonPosition)e.NewValue);
         }
 
         #endregion
@@ -807,7 +753,7 @@ namespace Carousel
         public static readonly DependencyProperty SelectedItemProperty =
             DependencyProperty.Register(
                 "SelectedItem", 
-                typeof(Object), 
+                typeof(object), 
                 typeof(CarouselControl),
                 new FrameworkPropertyMetadata(
                     null,

@@ -38,20 +38,6 @@ namespace Repraicer.Services
 
             Uri uri = null;
 
-            //var s = e.NewValue as string;
-
-            //if (s != null)
-            //{
-            //    var uriString = s;
-
-            //    uri = string.IsNullOrWhiteSpace(uriString) ? null : new Uri(uriString);
-            //}
-            //else if (e.NewValue is Uri)
-            //{
-            //    uri = (Uri)e.NewValue;
-            //}
-
-            //used pattern matching instead of previous code. More readable, faster.
             switch (e.NewValue)
             {
                 case string s:

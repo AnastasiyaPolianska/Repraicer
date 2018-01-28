@@ -37,14 +37,6 @@ namespace Repraicer.Commands
             _canExecuteMethod = x => true;
         }
 
-        //public bool CanExecute(T1 parameter)
-        //{
-        //if (_canExecuteMethod == null) return true;
-        //return _canExecuteMethod(parameter);
-        //}
-
-        //simplified
-
         /// <summary>
         /// Determines whether this instance can execute the specified parameter.
         /// </summary>
@@ -53,16 +45,6 @@ namespace Repraicer.Commands
         /// <c>true</c> if this instance can execute the specified parameter; otherwise, <c>false</c>.
         /// </returns>
         public bool CanExecute(T1 parameter) => _canExecuteMethod == null || _canExecuteMethod(parameter);
-
-        //public void Execute(T2 parameter)
-        //{
-        //if (executeMethod != null)
-        //{
-        //    executeMethod(parameter);
-        //}
-        //}
-
-        //simplified
 
         /// <summary>
         /// Executes the specified parameter.

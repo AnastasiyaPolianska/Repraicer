@@ -16,7 +16,6 @@ namespace Repraicer.ViewModels
 {
     public class MainWindowViewModel : InpcBase
     {
-        //  private BrowserWndowViewModel browserWndowViewModel = BrowserWndowViewModel.Instance;
         private ObservableCollection<Product> _data;
 
         private Product _currentData;
@@ -54,23 +53,16 @@ namespace Repraicer.ViewModels
                 "Lowest Price"
             });
 
-            _selectedSortItem = _sortItems[0];
             _timer.Tick += TimerTick;
             SetTimerInterval();
 
             //commands
-            DecrementCommand = new SimpleCommand<object, object>(ExecuteDecrementCommand);
-            IncrementCommand = new SimpleCommand<object, object>(ExecuteIncrementCommand);
             GenerateFileCommand = new SimpleCommand<object, object>(GenerateFile);
             PlayCommand = new SimpleCommand<object, object>(PlayCommanExecute);
-            PauseCommand = new SimpleCommand<object, Object>(PauseCommandExecute);
+            PauseCommand = new SimpleCommand<object, object>(PauseCommandExecute);
 
-            //_keepaWindow = new NavigationWindow();
-            _currentPos = 0;
+            _currentPos = 3;
             CurrentData = products[_currentPos];
-
-            //var browser = new BrowserWindow();
-            //browser.Show();
         }
 
         /// <summary>
@@ -121,21 +113,6 @@ namespace Repraicer.ViewModels
         private void PauseCommandExecute(object parameter) => _timer.Stop();
 
         /// <summary>
-        /// Executes the decrement command.
-        /// </summary>
-        /// <param name="parameter">The parameter.</param>
-        private void ExecuteDecrementCommand(object parameter)
-        {
-            if (_currentPos <= 0)
-            {
-                return;
-            }
-
-            --_currentPos;
-            CurrentData = _data[_currentPos];
-        }
-
-        /// <summary>
         /// Gets or sets the current position.
         /// </summary>
         /// <value>
@@ -169,21 +146,6 @@ namespace Repraicer.ViewModels
         }
 
         /// <summary>
-        /// Executes the increment command.
-        /// </summary>
-        /// <param name="parameter">The parameter.</param>
-        private void ExecuteIncrementCommand(object parameter)
-        {
-            if (_currentPos >= _data.Count - 1)
-            {
-                return;
-            }
-
-            ++_currentPos;
-            CurrentData = _data[_currentPos];
-        }
-
-        /// <summary>
         /// Sorts the products.
         /// </summary>
         private void SortProducts()
@@ -192,13 +154,13 @@ namespace Repraicer.ViewModels
             {
                 case "List Date Newest":
                     {
-                        Data = new ObservableCollection<Product>(Data.OrderBy(d => d.OpenDate).ToList());
+                        Data = new ObservableCollection<Product>(Data.OrderByDescending(d => d.OpenDate).ToList());
                     }
                     break;
 
                 case "Oldest List Date":
                     {
-                        Data = new ObservableCollection<Product>(Data.OrderByDescending(d => d.OpenDate).ToList());
+                        Data = new ObservableCollection<Product>(Data.OrderBy(d => d.OpenDate).ToList());
                     }
                     break;
 
@@ -215,7 +177,7 @@ namespace Repraicer.ViewModels
                     break;
             }
 
-            CurrentPosition = 0;
+            CurrentPosition = 3;
             CurrentData = Data[_currentPos];
         }
 
@@ -231,9 +193,9 @@ namespace Repraicer.ViewModels
             sb.AppendLine("sku" + delimiter + "price" + delimiter + "quantity");
             foreach (var product in _data)
             {
-                if (!string.IsNullOrEmpty(product.NewPrice) && product.NewPrice != product.Price)
+                if (product.NewPrice != product.Price)
                 {
-                    sb.AppendLine(product.SellerSku + delimiter + product.NewPrice);
+                    sb.AppendLine(product.SellerSku + delimiter + product.NewPrice + delimiter + product.Quantity);
                 }
             }
 
@@ -242,9 +204,6 @@ namespace Repraicer.ViewModels
                 file.Write(sb);
             }
         }
-
-        public ICommand DecrementCommand { get; private set; }
-        public ICommand IncrementCommand { get; private set; }
 
         public ICommand GenerateFileCommand { get; }
 
@@ -304,10 +263,7 @@ namespace Repraicer.ViewModels
                 _currentData = value;
                 CurrentPosition = _data.IndexOf(_currentData);
 
-                //  browserWndowViewModel.ProductUri = new Uri("https://www.amazon.com/gp/offer-listing/" + currentData.asin1 + "/", UriKind.Absolute);
                 Process.Start("https://www.amazon.com/gp/offer-listing/" + _currentData.Asin1 + "/ref=olp_f_primeEligible?ie=UTF8&f_all=true&f_primeEligible=true");
-                //    process = Process.Start("https://keepa.com/#!product/1-" + currentData.asin1 + "/");
-                //    if(currentPos > 0) CloseTab();
                 NotifyPropertyChanged("CurrentData");
             }
         }
@@ -318,8 +274,6 @@ namespace Repraicer.ViewModels
 
         [DllImport("user32.dll")]
         public static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, uint dwExtraInfo);
-
-        //byte W = 0x57; //the keycode for the W key
 
         /// <summary>
         /// Sends the specified key code.
@@ -383,12 +337,5 @@ namespace Repraicer.ViewModels
                 keybd_event(VK_LWIN, 0, KEYEVENTF_KEYUP, 0);
             }
         }
-
-        //private void CloseTab()
-        //{
-        //    SetForegroundWindow(_process.MainWindowHandle);
-        //    Task.Delay(500);
-        //    Send(W, true, false, false, false); //Ctrl+W
-        //}
     }
 }

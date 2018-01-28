@@ -18,8 +18,7 @@ namespace Repraicer.Converters
         /// </returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var datePart = ((string) value)?.Split(' ')[0];
-            var startDate = DateTime.Parse(datePart);
+            var startDate = (DateTime)value;
 
             return (DateTime.Now - startDate).Days;
         }
